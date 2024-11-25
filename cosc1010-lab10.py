@@ -1,8 +1,8 @@
-# Your Name Here
+# Spencer Lubken
 # UWYO COSC 1010
-# Submission Date
-# Lab XX
-# Lab Section: 
+# 11/24/24
+# Lab 10
+# Lab Section: 14
 # Sources, people worked with, help given to: 
 # your
 # comments
@@ -17,7 +17,28 @@ def get_hash(to_hash):
     """You can use """
     return sha256(to_hash.encode('utf-8')).hexdigest().upper()
 
+def crack_password():
+    try:
+        hash_path = Path('hash')
+        with open(hash_path, 'r') as file:
+            stored_hash = file.read().strip()
+    except Exception as e:
+        print(f"Error reading hash file: {e}")
+        return
+    try:
+        with open('rockyou.txt', 'r', encoding='utf-8', errors='ignore') as rockyou_file:
+            for line in rockyou_file:
+                password = line.strip() 
+                hashed_password = get_hash(password)
 
+                if hashed_password == stored_hash:
+                    print(f"Password found: {password}")
+                    break
+            else:
+                print("Password not found in the list.")
+    except Exception as e:
+        print(f"Error reading password file: {e}")
+crack_password()
 
 # Files and Exceptions
 
